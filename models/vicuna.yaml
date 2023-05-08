@@ -1,0 +1,19 @@
+name: vicuna
+owner: vicuna
+path: models/vicuna-7B-q8_0.bin
+context: 2048
+verbose: true
+threads: 4
+embedding: true
+gpuLayers: 30
+roles:
+  system: system
+  user: user
+  assistant: assistant
+promptTemplates:
+  completion: models/completion.tpl
+  chat: models/chat.tpl
+session:
+  enable: true
+  path: /tmp
+  threshold: 0.75

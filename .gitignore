@@ -1,0 +1,6 @@
+.vscode
+libllama.so
+main
+llama.cpp
+models/*.bin
+include

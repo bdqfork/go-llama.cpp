@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  go-llama:
+   image: github.com/bdqfork/go-llama:lastest
+   command:
+     - -v=4
+   ports:
+      - 8000:8000
+   volumes:
+   - ./models:/app/models
+  app:
+    image: chenzhaoyu94/chatgpt-web
+    ports:
+      - 3002:3002
+    environment:
+      OPENAI_API_KEY: sk-xxx
+      OPENAI_API_BASE_URL: http://go-llama:8000
+      OPENAI_API_MODEL: vicuna
+      TIMEOUT_MS: 600000
