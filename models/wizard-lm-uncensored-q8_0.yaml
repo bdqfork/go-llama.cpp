@@ -1,11 +1,11 @@
-name: vicuna
-owner: vicuna
-path: models/vicuna-7B-q8_0.bin
+name: wizard-lm-uncensored-q8_0
+owner: wizard-lm
+path: models/wizard-lm-uncensored-q8_0.bin
 context: 2048
 verbose: true
 threads: 4
 embedding: true
-gpuLayers: 30
+gpuLayers: 32
 roles:
   system: system
   user: user

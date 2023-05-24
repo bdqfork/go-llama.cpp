@@ -9,6 +9,13 @@ services:
       - 8000:8000
    volumes:
    - ./models:/app/models
+   deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
   app:
     image: chenzhaoyu94/chatgpt-web
     ports:
@@ -16,5 +23,5 @@ services:
     environment:
       OPENAI_API_KEY: sk-xxx
       OPENAI_API_BASE_URL: http://go-llama:8000
-      OPENAI_API_MODEL: vicuna
+      OPENAI_API_MODEL: wizard-lm-uncensored-q8_0
       TIMEOUT_MS: 600000

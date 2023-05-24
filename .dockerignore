@@ -1,5 +1,3 @@
 .vscode
-libllama.so
-main
 models
 include

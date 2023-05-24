@@ -47,8 +47,9 @@ func (l *llm) ChatCompletion(ctx context.Context, id string, input []ChatComplet
 
 	sessionFilepath := l.generateSessionFilepath(id)
 
+	matchNum := 0
 	if l.modelConfig.Session.Enable {
-		matchNum, err := l.Model.LoadSession(sessionFilepath, promptTokens)
+		matchNum, err = l.Model.LoadSession(sessionFilepath, promptTokens)
 		if err != nil {
 			klog.Errorf("failed to load session, err: %v", err)
 			return nil, err
@@ -115,7 +116,7 @@ func (l *llm) ChatCompletion(ctx context.Context, id string, input []ChatComplet
 	completion.Usage.CompletionTokens = outTokenNum
 	completion.Usage.TotalTokens = promptTokenNum + outTokenNum
 
-	similar := float32(float32(promptTokenNum) / float32(outTokenNum+promptTokenNum))
+	similar := float32(float32(matchNum) / float32(outTokenNum+promptTokenNum))
 	needSave := similar < l.modelConfig.Session.Threshold
 	if needSave {
 		err := l.Model.SaveSession(sessionFilepath)
@@ -152,7 +153,7 @@ func (l *llm) ChatCompletionStream(ctx context.Context, id string, input []ChatC
 
 	promptTokenNum := len(promptTokens)
 
-	if promptTokenNum+maxTokens > *l.modelConfig.Context {
+	if promptTokenNum >= *l.modelConfig.Context {
 		return fmt.Errorf("tokens exceeds max context size: %d", *l.modelConfig.Context)
 	}
 
@@ -163,9 +164,9 @@ func (l *llm) ChatCompletionStream(ctx context.Context, id string, input []ChatC
 
 	sessionFilepath := l.generateSessionFilepath(id)
 
+	matchNum := 0
 	if l.modelConfig.Session.Enable {
-
-		matchNum, err := l.Model.LoadSession(sessionFilepath, promptTokens)
+		matchNum, err = l.Model.LoadSession(sessionFilepath, promptTokens)
 		if err != nil {
 			klog.Errorf("failed to load session, err: %v", err)
 			return err
@@ -227,7 +228,7 @@ func (l *llm) ChatCompletionStream(ctx context.Context, id string, input []ChatC
 		}
 	}
 
-	similar := float32(float32(promptTokenNum) / float32(outTokenNum+promptTokenNum))
+	similar := float32(float32(matchNum) / float32(outTokenNum+promptTokenNum))
 	needSave := similar < l.modelConfig.Session.Threshold
 	if needSave {
 		err := l.Model.SaveSession(sessionFilepath)

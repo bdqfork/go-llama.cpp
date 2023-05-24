@@ -26,5 +26,5 @@ run: fmt libllama.so
 build: fmt libllama.so
 	@C_INCLUDE_PATH=${INCLUDE_PATH} LIBRARY_PATH=${LIBRARY_PATH} go build -o main main.go
 
-docker-build: clean
+docker-build: build
 	docker build -t github.com/bdqfork/go-llama:lastest .
