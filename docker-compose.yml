@@ -23,5 +23,5 @@ services:
     environment:
       OPENAI_API_KEY: sk-xxx
       OPENAI_API_BASE_URL: http://go-llama:8000
-      OPENAI_API_MODEL: wizard-lm-uncensored-q8_0
+      OPENAI_API_MODEL: vicuna-7B-q8_0
       TIMEOUT_MS: 600000

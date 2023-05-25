@@ -27,7 +27,7 @@ func (s *Server) listModels(ctx *gin.Context) {
 	rsp := map[string]interface{}{}
 	rsp["data"] = models
 	rsp["object"] = "list"
-	ctx.JSON(http.StatusOK, models)
+	ctx.JSON(http.StatusOK, rsp)
 }
 
 func (s *Server) retreiveModel(ctx *gin.Context) {

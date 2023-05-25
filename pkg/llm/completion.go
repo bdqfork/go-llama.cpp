@@ -22,6 +22,10 @@ func (l *llm) Completion(ctx context.Context, prompt string, stops []string, suf
 		defer l.Model.PrintTimings()
 	}
 
+	if len(l.modelConfig.Stops) > 0 {
+		stops = append(stops, l.modelConfig.Stops...)
+	}
+
 	promptTemplate := l.templates["completion"]
 	input := prompt
 
@@ -110,6 +114,10 @@ func (l *llm) CompletionStream(ctx context.Context, prompt string, stops []strin
 	defer l.locker.Unlock()
 
 	defer close(outChan)
+
+	if len(l.modelConfig.Stops) > 0 {
+		stops = append(stops, l.modelConfig.Stops...)
+	}
 
 	promptTemplate := l.templates["completion"]
 	input := prompt

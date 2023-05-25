@@ -23,6 +23,10 @@ func (l *llm) ChatCompletion(ctx context.Context, id string, input []ChatComplet
 		defer l.Model.PrintTimings()
 	}
 
+	if len(l.modelConfig.Stops) > 0 {
+		stops = append(stops, l.modelConfig.Stops...)
+	}
+
 	promptTemplate := l.templates["chat"]
 
 	renderedPrompt, err := render(promptTemplate, input)
@@ -134,6 +138,10 @@ func (l *llm) ChatCompletionStream(ctx context.Context, id string, input []ChatC
 	defer l.locker.Unlock()
 
 	defer close(outChan)
+
+	if len(l.modelConfig.Stops) > 0 {
+		stops = append(stops, l.modelConfig.Stops...)
+	}
 
 	promptTemplate := l.templates["chat"]
 

@@ -1,6 +1,6 @@
-name: wizard-lm-uncensored-q8_0
-owner: wizard-lm
-path: models/wizard-lm-uncensored-q8_0.bin
+name: vicuna-7B-q8_0
+owner: vicuna
+path: models/vicuna-7B-q8_0.bin
 context: 2048
 verbose: true
 threads: 4
@@ -16,4 +16,4 @@ promptTemplates:
 session:
   enable: true
   path: /tmp
-  threshold: 0.75
+  threshold: 0.95

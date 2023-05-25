@@ -48,6 +48,7 @@ type ModelConfig struct {
 
 	PromptTemplates map[string]string `yaml:"promptTemplates"`
 	Roles           map[string]string `yaml:"roles"`
+	Stops           []string          `yaml:"stops"`
 
 	Session SessionConfig `yaml:"session"`
 }
