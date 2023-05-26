@@ -1,7 +1,7 @@
 INCLUDE_PATH := $(abspath .)
 LIBRARY_PATH := $(abspath .)
 
-LLAMA_CPP_VERSION := master-fab49c6
+LLAMA_CPP_VERSION := master-66874d4
 
 fmt:
 	revive --config revive.toml -formatter friendly github.com/bdqfork/go-llama.cpp pkg/...

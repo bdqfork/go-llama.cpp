@@ -1,0 +1,19 @@
+name: vicuna-13B-q4_1
+owner: vicuna
+path: models/vicuna-13B-q4_1.bin
+context: 2048
+verbose: true
+threads: 4
+embedding: true
+gpuLayers: 35
+roles:
+  system: system
+  user: user
+  assistant: assistant
+promptTemplates:
+  completion: models/completion.tpl
+  chat: models/chat.tpl
+session:
+  enable: true
+  path: /tmp
+  threshold: 0.95
