@@ -40,6 +40,8 @@ type (
 	ProgressCallback C.llama_progress_callback
 	// Params to config runtime context
 	Params C.struct_llama_context_params
+	// QuantizeParams to config quantize
+	QuantizeParams C.llama_model_quantize_params
 	// FType indicate model quantitze type
 	FType C.enum_llama_ftype
 )
@@ -67,6 +69,12 @@ const (
 func ContextDefaultParams() Params {
 	params := C.llama_context_default_params()
 	return Params(params)
+}
+
+// QuantizeDefaultParams returns default quantize params
+func QuantizeDefaultParams() QuantizeParams {
+	params := C.llama_model_quantize_default_params()
+	return QuantizeParams(params)
 }
 
 // MMapSupported returns if support mmap
@@ -97,14 +105,15 @@ func InitFromFile(path string, params Params) (*Context, error) {
 }
 
 // ModelQuantize to quantitze model
-func ModelQuantize(input, output string, fType FType, threadNum int32) bool {
+func ModelQuantize(input, output string, params *QuantizeParams) bool {
 	cInput := C.CString(input)
 	defer C.free(unsafe.Pointer(cInput))
 
 	cOutput := C.CString(output)
 	defer C.free(unsafe.Pointer(cOutput))
 
-	return C.llama_model_quantize(cInput, cOutput, (C.enum_llama_ftype)(fType), C.int(threadNum)) == 0
+	ptr := unsafe.Pointer(params)
+	return C.llama_model_quantize(cInput, cOutput, (*C.llama_model_quantize_params)(ptr)) == 0
 }
 
 // TokenBos returns bos token

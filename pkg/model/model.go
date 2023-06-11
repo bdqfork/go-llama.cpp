@@ -29,7 +29,7 @@ var _ Model = (*model)(nil)
 func New(modelPath string, opts ...Option) (Model, error) {
 	p := &Params{
 		Params:          binding.ContextDefaultParams(),
-		batchNum:        8,
+		batchNum:        512,
 		lastNTokensSize: 64,
 		verbose:         true,
 		threadNum:       runtime.NumCPU(),
@@ -232,12 +232,12 @@ func (m *model) SaveSession(filepath string) error {
 	return m.ctx.SaveSessionFile(filepath, m.tokens)
 }
 
-func (m *model) LoadSession(filepath string, tokens []binding.Token) (int, error) {
+func (m *model) LoadSession(filepath string, tokens []binding.Token) (matchNum int, err error) {
 	if m.params.verbose {
 		stateTime := time.Now()
 		fmt.Printf("start to load session, filepath: %s\n", filepath)
 		defer func() {
-			fmt.Printf("finished load session, filepath: %s, took: %v\n", filepath, time.Since(stateTime))
+			fmt.Printf("finished load session, filepath: %s, match num: %d, took: %v\n", filepath, matchNum, time.Since(stateTime))
 		}()
 	}
 
